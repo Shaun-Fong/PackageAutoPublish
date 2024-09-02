@@ -22,7 +22,9 @@ jobs:
 
       # Step 3: Install yq to parse YAML
       - name: Install yq
-        run: sudo apt-get update && sudo apt-get install -y yq
+        run: |
+          wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod a+x /usr/local/bin/yq
 
       # Step 4: Create .npmrc file using secrets
       - name: Create .npmrc file
