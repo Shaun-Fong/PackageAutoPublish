@@ -75,7 +75,7 @@ jobs:
             fi
             
             # Return to the root of the workspace
-            cd ../../
+            cd $GITHUB_WORKSPACE
 
             # Clean up the cloned repository
             echo "#################################################"
