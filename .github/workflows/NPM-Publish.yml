@@ -1,0 +1,84 @@
+name: NPM-Publish
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  NPM-Publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@main
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@main
+        with:
+          node-version: '20.x'
+
+      # Step 3: Install yq to parse YAML
+      - name: Install yq
+        run: sudo apt-get install -y yq
+
+      # Step 4: Create .npmrc file using secrets
+      - name: Create .npmrc file
+        run: |
+          echo "${{ secrets.NPMRC }}" > ~/.npmrc
+
+      # Step 5: Read all repositories from repo.yml and print the repository count
+      - name: Read and process repositories
+        run: |
+          # Count the number of repositories in repo.yml
+          COUNT=$(yq eval '.repositories | length' repo.yml)
+          
+          # Print the number of repositories found
+          echo "#################################################"
+          echo "#  Number of repositories found: $COUNT"
+          echo "#################################################"
+
+          # Iterate through each repository
+          for i in $(seq 0 $(($COUNT - 1)))
+          do
+            REPO_URL=$(yq eval ".repositories[$i].url" repo.yml)
+            DIRECTORY=$(yq eval ".repositories[$i].directory" repo.yml)
+
+            echo "#################################################"
+            echo "#  Cloning $REPO_URL into directory $DIRECTORY"
+            echo "#################################################"
+            
+            # Clone the repository into the specified directory
+            git clone $REPO_URL cloned_repo_$i
+            
+            # Navigate to the directory and install dependencies
+            cd cloned_repo_$i/$DIRECTORY
+            npm install
+            
+            # Get the current version from package.json
+            VERSION=$(node -p "require('./package.json').version")
+            PACKAGE_NAME=$(node -p "require('./package.json').name")
+            
+            # Check if the version already exists on NPM
+            if npm view $PACKAGE_NAME@$VERSION > /dev/null 2>&1; then
+              echo "#######################################################################################"
+              echo "#  Version $VERSION of $PACKAGE_NAME already exists on NPM. Skipping publish."
+              echo "#######################################################################################"
+            else
+              echo "#######################################################################################"
+              echo "#  Version $VERSION of $PACKAGE_NAME does not exist on NPM. Proceeding with publish."
+              echo "#######################################################################################"
+              npm publish --registry=${{ secrets.NPM_URL }}
+            fi
+            
+            # Return to the root of the workspace
+            cd ../../
+
+            # Clean up the cloned repository
+            echo "#################################################"
+            echo "#  Cleaning up cloned repository cloned_repo_$i"
+            echo "#################################################"
+            rm -rf cloned_repo_$i
+          done
