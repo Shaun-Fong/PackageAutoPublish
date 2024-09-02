@@ -55,9 +55,8 @@ jobs:
             # Clone the repository into the specified directory
             git clone $REPO_URL cloned_repo_$i
             
-            # Navigate to the directory and install dependencies
-            #cd cloned_repo_$i/$DIRECTORY
-            #npm install
+            # Navigate to the directory
+            cd cloned_repo_$i/$DIRECTORY
             
             # Get the current version from package.json
             VERSION=$(node -p "require('./package.json').version")
