@@ -56,15 +56,15 @@ jobs:
             git clone $REPO_URL cloned_repo_$i
             
             # Navigate to the directory and install dependencies
-            cd cloned_repo_$i/$DIRECTORY
-            npm install
+            #cd cloned_repo_$i/$DIRECTORY
+            #npm install
             
             # Get the current version from package.json
             VERSION=$(node -p "require('./package.json').version")
             PACKAGE_NAME=$(node -p "require('./package.json').name")
             
             # Check if the version already exists on NPM
-            if npm view $PACKAGE_NAME@$VERSION > /dev/null 2>&1; then
+            if npm view $PACKAGE_NAME@$VERSION --registry=${{ secrets.NPM_URL }} > /dev/null 2>&1; then
               echo "#######################################################################################"
               echo "#  Version $VERSION of $PACKAGE_NAME already exists on NPM. Skipping publish."
               echo "#######################################################################################"
