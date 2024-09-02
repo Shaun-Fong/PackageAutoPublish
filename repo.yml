@@ -3,3 +3,5 @@ repositories:
     directory: ./
   - url: https://github.com/psydack/uimgui.git
     directory: ./
+  - url: https://github.com/sr4dev/Unity-SpriteAssist.git
+    directory: ./Assets/SpriteAssist
