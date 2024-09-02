@@ -38,9 +38,9 @@ jobs:
           COUNT=$(yq eval '.repositories | length' repo.yml)
           
           # Print the number of repositories found
-          echo "#################################################"
-          echo "#  Number of repositories found: $COUNT"
-          echo "#################################################"
+          echo "================================================="
+          echo "Number of repositories found: $COUNT"
+          echo "================================================="
 
           # Iterate through each repository
           for i in $(seq 0 $(($COUNT - 1)))
@@ -50,7 +50,6 @@ jobs:
 
             echo "#################################################"
             echo "#  Cloning $REPO_URL into directory $DIRECTORY"
-            echo "#################################################"
             
             # Clone the repository into the specified directory
             git clone $REPO_URL cloned_repo_$i
@@ -64,21 +63,16 @@ jobs:
             
             # Check if the version already exists on NPM
             if npm view $PACKAGE_NAME@$VERSION --registry=${{ secrets.NPM_URL }} > /dev/null 2>&1; then
-              echo "#######################################################################################"
               echo "#  Version $VERSION of $PACKAGE_NAME already exists on NPM. Skipping publish."
-              echo "#######################################################################################"
             else
-              echo "#######################################################################################"
               echo "#  Version $VERSION of $PACKAGE_NAME does not exist on NPM. Proceeding with publish."
-              echo "#######################################################################################"
-              npm publish --registry=${{ secrets.NPM_URL }}
+              npm publish --registry=${{ secrets.NPM_URL }} || true
             fi
             
             # Return to the root of the workspace
             cd $GITHUB_WORKSPACE
 
             # Clean up the cloned repository
-            echo "#################################################"
             echo "#  Cleaning up cloned repository cloned_repo_$i"
             echo "#################################################"
             rm -rf cloned_repo_$i
