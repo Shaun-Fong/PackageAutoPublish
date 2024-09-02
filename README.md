@@ -1,10 +1,10 @@
 # PackageAutoPublish
 
-Auto publish NPM package to github package registry from a repo url list file.
+## repo.yml
 
-# repo.yml
+This file contains all repo urls. Pull from url then publish one by one.
 
-This file contains all repo url.
+It will skip to publish if Package already exist(or version).
 
 Example:
 ```
@@ -17,7 +17,9 @@ repositories:
     directory: src3
 ```
 
-# Secrets
+`directory` refers to the directory path under the `package.json` file.
+
+## Secrets
 Before you run the action,go repo settings, add secrets below:
 - NPMRC
 - NPM_URL
