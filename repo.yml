@@ -1,0 +1,5 @@
+repositories:
+  - url: https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
+    directory: ./
+  - url: https://github.com/psydack/uimgui.git
+    directory: ./
