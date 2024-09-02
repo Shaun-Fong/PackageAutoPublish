@@ -5,3 +5,15 @@ repositories:
     directory: ./
   - url: https://github.com/sr4dev/Unity-SpriteAssist.git
     directory: ./Assets/SpriteAssist
+  - url: https://github.com/Whinarn/UnityMeshSimplifier.git
+    directory: ./
+  - url: https://github.com/mob-sakai/SoftMaskForUGUI.git
+    directory: ./
+  - url: https://github.com/Cysharp/UniTask.git
+    directory: ./src/UniTask/Assets/Plugins/UniTask
+  - url: https://github.com/Dreaming381/Latios-Framework.git
+    directory: ./
+  - url: https://github.com/mob-sakai/UnmaskForUGUI.git
+    directory: ./
+  - url: https://github.com/jiaozi158/UnitySSGIURP.git
+    directory: ./
