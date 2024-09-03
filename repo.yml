@@ -17,3 +17,11 @@ repositories:
     directory: ./
   - url: https://github.com/jiaozi158/UnitySSGIURP.git
     directory: ./
+  - url: https://github.com/qiankanglai/LoopScrollRect.git
+    directory: ./
+  - url: https://github.com/fuqunaga/RosettaUI.git
+    directory: ./Packages/ga.fuquna.rosettaui.ugui
+  - url: https://github.com/fuqunaga/RosettaUI.git
+    directory: ./Packages/ga.fuquna.rosettaui.uitoolkit
+  - url: https://github.com/fuqunaga/RosettaUI.git
+    directory: ./Packages/ga.fuquna.rosettaui
